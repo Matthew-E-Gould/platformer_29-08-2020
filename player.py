@@ -9,7 +9,8 @@ class Player:
     collisionRect = None
     canJump = True
 
-    gravity = -9.81
+    gravity = 9.81
+    groundDrag = 0.5
     power = 10
 
     def __init__(self, image = "img\player.png", gravity = -9.81, power = 10):
@@ -23,17 +24,28 @@ class Player:
         if self.canJump:
             print("player Jump")
             self.canJump = False
-            self.momentum = (self.momentum[0] - self.power, self.momentum[1])
+            self.momentum = (self.momentum[0], self.momentum[1] - self.power)
 
     def land(self):
         print("player Landed")
         self.canJump = True
+        self.momentum = (self.momentum[0], 0)
 
     def setXPos(self, x):
         self.pos = (x, self.pos[1])
 
     def setYPos(self, y):
         self.pos = (self.pos[0], y)
+
+    def doMove(self, onGround):
+        if onGround:
+            self.pos = (self.pos[0] + self.momentum[0], self.pos[1] + gravity)
+            self.momentum = (self.momentum[0] * groundDrag, self.momentum[1])
+        else:
+            self.pos = (self.pos[0] + self.momentum[0], self.pos[1] + gravity)
+            self.momentum = (self.momentum[0], self.momentum[1] * 9.81)
+
+
 
     # jump
     # move?
