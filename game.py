@@ -1,7 +1,10 @@
 import pygame, sys
-from player import *
+
 from pygame.locals import *
-#
+
+from player import *
+from level import *
+
 import os
 print(os.getcwd())
 
@@ -15,7 +18,7 @@ Y_SIZE = 720
 WIN_SIZE = (X_SIZE, Y_SIZE)
 screen = pygame.display.set_mode(WIN_SIZE,0,32)
 
-FRAME_LIMIT = 1000;
+FRAME_LIMIT = 1000
 
 xPos = 0
 yPos = 0
