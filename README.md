@@ -2,4 +2,4 @@
  A platformer game made during the bank holiday weekend
  
 You will need to install:
-*pygame
+* pygame
