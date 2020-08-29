@@ -3,3 +3,6 @@
  
 You will need to install:
 * pygame
+
+Main Contributors:
+@Matthew-E-Gould
