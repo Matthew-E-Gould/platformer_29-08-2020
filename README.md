@@ -17,3 +17,4 @@ You will need to install:
 - [ ] Wall jumping ?
 - [ ] Level end zones
 - [ ] Interactive environment (jump pad, bombs etc.)
+- [ ] Level select
