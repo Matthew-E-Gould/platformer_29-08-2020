@@ -3,7 +3,7 @@ from pygame.locals import *
 
 class Player:
 
-    pos = (0, 0)
+    pos = (640, 360)
     momentum = (0, 0)
     image = None
     collisionRect = None

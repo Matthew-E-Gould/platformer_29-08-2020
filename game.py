@@ -29,12 +29,21 @@ player = Player()
 while True:
     screen.fill((0,0,0))
 
-    player.pos = (player.pos[0] + 1, player.pos[1])
-    if(player.pos[0] >= X_SIZE):
-        player.pos = (0, player.pos[1] + 1)
-        if(player.pos[1] >= Y_SIZE):
-            player.pos = (0, 1)
+##    player.pos = (player.pos[0] + 1, player.pos[1])
+##    if(player.pos[0] >= X_SIZE):
+##        player.pos = (0, player.pos[1] + 1)
+##        if(player.pos[1] >= Y_SIZE):
+##            player.pos = (0, 1)
 
+    movePressed = pygame.key.get_pressed()
+    if movePressed[pygame.K_LEFT] and player.pos[0] > 10:
+        player.pos = (player.pos[0] - 2, player.pos[1])
+    elif movePressed[pygame.K_RIGHT] and player.pos[0] < 1200:
+        player.pos = (player.pos[0] + 2, player.pos[1])
+    elif movePressed[pygame.K_UP] and player.pos[1] > 10:
+        player.pos = (player.pos[0], player.pos[1] - 2)
+    elif movePressed[pygame.K_DOWN] and player.pos[1] < 700:
+        player.pos = (player.pos[0], player.pos[1] + 2)
 
     for event in pygame.event.get():
         if event.type == QUIT: # when X clicked on window
