@@ -37,13 +37,19 @@ class Player:
     def setYPos(self, y):
         self.pos = (self.pos[0], y)
 
+    def setXMomentum(self, x):
+        self.momentum = (x, self.momentum[1])
+
+    def setYMomentum(self, y):
+        self.momentum = (self.momentum[0], y)
+
     def doMove(self, onGround):
         if onGround:
             self.pos = (self.pos[0] + self.momentum[0], self.pos[1] + gravity)
             self.momentum = (self.momentum[0] * groundDrag, self.momentum[1])
         else:
             self.pos = (self.pos[0] + self.momentum[0], self.pos[1] + gravity)
-            self.momentum = (self.momentum[0], self.momentum[1] * 9.81)
+            self.momentum = (self.momentum[0], self.momentum[1] - 9.81)
 
 
 
