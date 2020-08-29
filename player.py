@@ -11,7 +11,7 @@ class Player:
     screen = (0,0)
 
     gravity = 9.81
-    groundDrag = 0.1
+    groundDrag = 0.05
     power = 10
     maxSpeed = 10
 
@@ -37,7 +37,7 @@ class Player:
     def doMove(self, onGround = True):
         if onGround:
             self.pos = (self.pos[0] + self.momentum[0], self.pos[1])
-            self.momentum = (self.momentum[0] * self.groundDrag, self.momentum[1])
+            self.momentum = (self.momentum[0] * (1-self.groundDrag), self.momentum[1])
         else:
             self.pos = (self.pos[0] + self.momentum[0], self.pos[1] - self.gravity)
             self.momentum = (self.momentum[0], self.momentum[1] - 9.81)
@@ -55,7 +55,7 @@ class Player:
             self.pos = (self.pos[0], self.screen[1])
 
     def moveLeft(self):
-        newspeed = self.momentum[0] - 3
+        newspeed = self.momentum[0] - 1
         if (newspeed < -self.maxSpeed): # correction
             newspeed = -self.maxSpeed
         self.momentum = (newspeed, self.momentum[1])
@@ -63,7 +63,7 @@ class Player:
 
 
     def moveRight(self):
-        newspeed = self.momentum[0] + 3
+        newspeed = self.momentum[0] + 1
         if (newspeed > self.maxSpeed): # correction
             newspeed = self.maxSpeed
         self.momentum = (newspeed, self.momentum[1])
