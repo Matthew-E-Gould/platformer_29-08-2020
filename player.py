@@ -6,6 +6,8 @@ DEFAULT_POWER = 10
 
 class Player:
 
+    x = 640
+    y = 360
     pos = (640, 360)
     velocity = (0, 0)
     image = None
