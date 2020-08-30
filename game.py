@@ -39,6 +39,8 @@ while True:
         player.setYPos(player.pos[1] + 2)
     if movePressed[pygame.K_SPACE]:
         player.jump()
+    if movePressed[pygame.K_LSHIFT]: # debug
+        player.land()
 
     for event in pygame.event.get():
         if event.type == QUIT: # when X clicked on window
