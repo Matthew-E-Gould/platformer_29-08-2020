@@ -28,7 +28,6 @@ player = Player(WIN_SIZE)
 # game loop
 while True:
     screen.fill((0,0,0)) # make screen black, dont put any rendering abouve here :):):)
-    print(player.momentum)
     movePressed = pygame.key.get_pressed()
     if movePressed[pygame.K_a]:
         player.moveLeft()
@@ -38,6 +37,8 @@ while True:
         player.setYPos(player.pos[1] - 2)
     if movePressed[pygame.K_s]:
         player.setYPos(player.pos[1] + 2)
+    if movePressed[pygame.K_SPACE]:
+        player.jump()
 
     for event in pygame.event.get():
         if event.type == QUIT: # when X clicked on window
@@ -51,3 +52,9 @@ while True:
 
     pygame.display.update()
     clock.tick(FRAME_LIMIT) # frame limit
+
+    ############################################################################
+    # DEBUG OUTPUTS
+    print("Vel: " + str(player.velocity))
+    print("Pos: " + str(player.pos))
+    print("Jmp: " + str(player.canJump))

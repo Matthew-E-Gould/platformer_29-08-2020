@@ -4,11 +4,12 @@ from pygame.locals import *
 class Player:
 
     pos = (640, 360)
-    momentum = (0, 0)
+    velocity = (0, 0)
     image = None
     collisionRect = None
-    canJump = True
     screen = (0,0)
+    canJump = True
+    inAir = False
 
     gravity = 9.81
     groundDrag = 0.05
@@ -27,20 +28,20 @@ class Player:
         if self.canJump:
             print("player Jump")
             self.canJump = False
-            self.momentum = (self.momentum[0], self.momentum[1] - self.power)
+            self.velocity = (self.velocity[0], self.velocity[1] - 30)
 
     def land(self):
         print("player Landed")
         self.canJump = True
-        self.momentum = (self.momentum[0], 0)
+        self.velocity = (self.velocity[0], 0)
 
-    def doMove(self, onGround = True):
-        if onGround:
-            self.pos = (self.pos[0] + self.momentum[0], self.pos[1])
-            self.momentum = (self.momentum[0] * (1-self.groundDrag), self.momentum[1])
+    def doMove(self):
+        if self.inAir:
+            self.pos = (self.pos[0] + self.velocity[0], self.pos[1] - self.gravity)
+            self.velocity = (self.velocity[0], self.velocity[1] - 9.81)
         else:
-            self.pos = (self.pos[0] + self.momentum[0], self.pos[1] - self.gravity)
-            self.momentum = (self.momentum[0], self.momentum[1] - 9.81)
+            self.pos = (self.pos[0] + self.velocity[0], self.pos[1])
+            self.velocity = (self.velocity[0] * (1-self.groundDrag), self.velocity[1])
 
         # x axis fix
         if(self.pos[0] < 0):
@@ -55,18 +56,18 @@ class Player:
             self.pos = (self.pos[0], self.screen[1])
 
     def moveLeft(self):
-        newspeed = self.momentum[0] - 1
+        newspeed = self.velocity[0] - 1
         if (newspeed < -self.maxSpeed): # correction
             newspeed = -self.maxSpeed
-        self.momentum = (newspeed, self.momentum[1])
+        self.velocity = (newspeed, self.velocity[1])
 
 
 
     def moveRight(self):
-        newspeed = self.momentum[0] + 1
+        newspeed = self.velocity[0] + 1
         if (newspeed > self.maxSpeed): # correction
             newspeed = self.maxSpeed
-        self.momentum = (newspeed, self.momentum[1])
+        self.velocity = (newspeed, self.velocity[1])
 
 ################################################################################
 
@@ -76,8 +77,8 @@ class Player:
     def setYPos(self, y):
         self.pos = (self.pos[0], y)
 
-    def setXMomentum(self, x):
-        self.momentum = (x, self.momentum[1])
+    def setXvelocity(self, x):
+        self.velocity = (x, self.velocity[1])
 
-    def setYMomentum(self, y):
-        self.momentum = (self.momentum[0], y)
+    def setYvelocity(self, y):
+        self.velocity = (self.velocity[0], y)
