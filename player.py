@@ -1,6 +1,9 @@
 import pygame, sys
 from pygame.locals import *
 
+DEFAULT_GRAVITY = 0.75
+DEFAULT_POWER = 10
+
 class Player:
 
     pos = (640, 360)
@@ -11,16 +14,20 @@ class Player:
     canJump = True
     inAir = False
 
-    gravity = 9.81
+    gravity = 0
     groundDrag = 0.05
     power = 10
-    maxSpeed = 10
 
-    def __init__(self, screenSize, image = "img\player.png", gravity = -9.81, power = 10):
+    maxXVel = 10
+    maxYVel = 10
+
+    def __init__(self, screenSize, image = "img\player.png", gravity = DEFAULT_GRAVITY, power = DEFAULT_POWER):
 
         self.screen = screenSize
         self.image = pygame.image.load(image)
         self.collisionRect = pygame.Rect(self.pos[0], self.pos[1], self.image.get_width(), self.image.get_height())
+
+        self.power = power
 
         self.gravity = gravity
 
@@ -28,17 +35,19 @@ class Player:
         if self.canJump:
             print("player Jump")
             self.canJump = False
-            self.velocity = (self.velocity[0], self.velocity[1] - 30)
+            self.inAir = True
+            self.velocity = (self.velocity[0], self.velocity[1] - self.power)
 
     def land(self):
         print("player Landed")
         self.canJump = True
+        self.inAir = False
         self.velocity = (self.velocity[0], 0)
 
     def doMove(self):
         if self.inAir:
-            self.pos = (self.pos[0] + self.velocity[0], self.pos[1] - self.gravity)
-            self.velocity = (self.velocity[0], self.velocity[1] - 9.81)
+            self.pos = (self.pos[0] + self.velocity[0], self.pos[1] + self.velocity[1])
+            self.velocity = (self.velocity[0], self.velocity[1] + self.gravity)
         else:
             self.pos = (self.pos[0] + self.velocity[0], self.pos[1])
             self.velocity = (self.velocity[0] * (1-self.groundDrag), self.velocity[1])
@@ -55,18 +64,28 @@ class Player:
         elif(self.pos[1] >= self.screen[1]):
             self.pos = (self.pos[0], self.screen[1])
 
+        # if(self.velocity[0] > self.maxXVel):
+        #     self.setXvelocity(self.maxXVel)
+        # elif(self.velocity[0] < -self.maxXVel):
+        #     self.setXvelocity(-self.maxXVel)
+
+        if(self.velocity[1] > self.maxYVel):
+            self.setYvelocity(self.maxYVel)
+        elif(self.velocity[1] < -self.maxYVel):
+            self.setYvelocity(-self.maxYVel)
+
     def moveLeft(self):
         newspeed = self.velocity[0] - 1
-        if (newspeed < -self.maxSpeed): # correction
-            newspeed = -self.maxSpeed
+        if (newspeed < -self.maxXVel): # correction
+            newspeed = -self.maxXVel
         self.velocity = (newspeed, self.velocity[1])
 
 
 
     def moveRight(self):
         newspeed = self.velocity[0] + 1
-        if (newspeed > self.maxSpeed): # correction
-            newspeed = self.maxSpeed
+        if (newspeed > self.maxXVel): # correction
+            newspeed = self.maxXVel
         self.velocity = (newspeed, self.velocity[1])
 
 ################################################################################
